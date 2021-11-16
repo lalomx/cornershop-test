@@ -33,9 +33,7 @@ class MenuViewSet(
 
 
 class OrderViewSet(
-    mixins.CreateModelMixin,
-    mixins.ListModelMixin,
-    viewsets.GenericViewSet,
+    mixins.CreateModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet
 ):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer

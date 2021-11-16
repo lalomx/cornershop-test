@@ -6,15 +6,10 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ("lunch", "0001_initial"),
-    ]
+    dependencies = [("lunch", "0001_initial")]
 
     operations = [
-        migrations.RemoveField(
-            model_name="order",
-            name="dish",
-        ),
+        migrations.RemoveField(model_name="order", name="dish"),
         migrations.AddField(
             model_name="menu",
             name="option_four",
@@ -47,7 +42,5 @@ class Migration(migrations.Migration):
             name="selection",
             field=models.CharField(default="No selection", max_length=50),
         ),
-        migrations.DeleteModel(
-            name="Dish",
-        ),
+        migrations.DeleteModel(name="Dish"),
     ]
