@@ -1,10 +1,11 @@
 from django.urls import include, path
 from rest_framework.routers import SimpleRouter
 
-from lunch.views import MenuViewSet, index, send_notification
+from lunch.views import MenuViewSet, OrderViewSet, index, send_notification
 
 router = SimpleRouter(trailing_slash=False)
 router.register(r"menu", MenuViewSet)
+router.register(r"order", OrderViewSet)
 
 urlpatterns = [
     path("", index, name="index"),

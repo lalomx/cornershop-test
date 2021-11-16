@@ -9,7 +9,7 @@ class SlackNotification(app.Task):
     def __init__(self):
         self.name = "SlackNotification"
 
-    def run(self, menu_id):
+    def run(self, not_id):
         logger.info("Slack notification started")
 
 
