@@ -26,16 +26,16 @@ class Employee(CommonModel, models.Model):
 
 class Menu(CommonModel, models.Model):
     name = models.CharField(max_length=50, default="Unknown Menu")
-
-
-class Dish(CommonModel, models.Model):
-    name = models.CharField(max_length=50, default="Unknown Dish")
-    menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
+    option_one = models.CharField(max_length=250, default="Dish 1")
+    option_two = models.CharField(max_length=250, default="Dish 2")
+    option_three = models.CharField(max_length=250, default="Dish 3")
+    option_four = models.CharField(max_length=250, default="Dish 4")
 
 
 class Order(CommonModel, models.Model):
     comments = models.TextField(null=True, max_length=500)
-    dish = models.ForeignKey(Dish, on_delete=models.SET_NULL, null=True)
+    menu = models.ForeignKey(Menu, on_delete=models.SET_NULL, null=True)
+    selection = models.CharField(max_length=50, default="No selection")
     employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
 
 
