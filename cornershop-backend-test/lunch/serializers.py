@@ -4,6 +4,6 @@ from lunch.models import Menu
 
 
 class MenuSerializer(ModelSerializer):
-  class Meta:
-    model = Menu
-    fields = '__all__'
+    class Meta:
+        model = Menu
+        fields = "__all__"
