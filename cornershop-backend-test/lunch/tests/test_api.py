@@ -5,7 +5,8 @@ from django.test import Client, TestCase
 
 from lunch.models import Employee, Menu, Order
 
-MENU_ID = uuid.uuid4().hex
+MENU_ID = uuid.uuid4()
+EMP_ID = uuid.uuid4()
 
 
 class Base(TestCase):
@@ -17,6 +18,13 @@ class Base(TestCase):
 
         emp2 = Employee.objects.create(
             first_name="Jonh 2", last_name="Doe 2", email="jonh2@doe@example.com"
+        )
+
+        Employee.objects.create(
+            id=EMP_ID,
+            first_name="Jonh 3",
+            last_name="Doe 3",
+            email="jonh3@doe@example.com",
         )
 
         menu = Menu.objects.create(
@@ -40,10 +48,10 @@ class Base(TestCase):
 
 
 class MenuTests(Base):
-    def test_menu_created(self):
+    def test_create_menu(self):
         c = Client()
         menu = {
-            "id": uuid.uuid4().hex,
+            "id": uuid.uuid4(),
             "created_by": "test",
             "updated_by": "test",
             "name": "Monday menu",
@@ -61,7 +69,7 @@ class MenuTests(Base):
 
     def test_retrieve_menu(self):
         c = Client()
-        response = c.get("/lunch/api/menu/" + MENU_ID)
+        response = c.get("/lunch/api/menu/" + str(MENU_ID))
         menu = json.loads(response.content)
 
         self.assertEqual("test", menu["created_by"])
@@ -78,6 +86,14 @@ class MenuTests(Base):
 
         self.assertEqual(404, response.status_code)
 
+    def test_list_order_menu(self):
+        c = Client()
+        response = c.get("/lunch/api/menu/" + str(MENU_ID) + "/orders")
+        orders = json.loads(response.content)
+
+        self.assertEqual(200, response.status_code)
+        self.assertEqual(2, len(orders))
+
 
 class OrderTest(Base):
     def test_list_orders(self):
@@ -87,3 +103,16 @@ class OrderTest(Base):
 
         self.assertEqual(200, response.status_code)
         self.assertEqual(2, len(orders))
+
+    def test_create_orders(self):
+        c = Client()
+        order = {
+            "id": uuid.uuid4().hex,
+            "comments": "all ingredients",
+            "menu": MENU_ID,
+            "selection": "Option 3",
+            "employee": EMP_ID,
+        }
+        response = c.post("/lunch/api/order", order)
+
+        self.assertEqual(201, response.status_code)
