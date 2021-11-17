@@ -22,6 +22,7 @@ class Employee(CommonModel, models.Model):
     first_name = models.CharField(max_length=80, default="Unknown name")
     last_name = models.CharField(max_length=80, default="Unknown lastname")
     email = models.EmailField()
+    slack_id = models.CharField(max_length=25, null=False, blank=False, default="00000")
 
 
 class Menu(CommonModel, models.Model):
