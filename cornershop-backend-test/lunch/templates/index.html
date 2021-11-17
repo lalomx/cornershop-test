@@ -1,15 +1,16 @@
 {% load static %}
-{% load render_bundle from webpack_loader %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Integrar Django 3 y Vue 3</title>
+    <link rel="stylesheet" href="/static/lunch/css/main.css" ></link>
 </head>
 <body>
     <h1 style="text-align: center;">Como integrar Django 3 y VueJS 3</h1>
     <div id="app"></div>
-    {% render_bundle 'app' 'js' %}
+    <script src="/static/lunch/main.js" ></script>
+    <script src="/static/lunch/chunk-vendors.js" ></script>
 </body>
 </html>

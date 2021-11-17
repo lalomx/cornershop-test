@@ -12,5 +12,6 @@ router.register(r"notification", NotificationViewSet)
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name="index.html")),
+    path('/<slug:slug>', TemplateView.as_view(template_name="index.html")),
     path("api/", include(router.urls)),
 ]
