@@ -1,5 +1,6 @@
 import json
 import uuid
+from unittest import mock
 
 from django.test import Client, TestCase
 
@@ -116,3 +117,20 @@ class OrderTest(Base):
         response = c.post("/lunch/api/order", order)
 
         self.assertEqual(201, response.status_code)
+
+
+class NotificationTest(Base):
+    @mock.patch("lunch.tasks.SlackNotification.apply_async")
+    def test_create_notification(self, mock):
+        c = Client()
+        not_id = str(uuid.uuid4())
+        notification = {
+            "id": not_id,
+            "channel_name": "slack",
+            "employee": EMP_ID,
+            "menu": MENU_ID,
+        }
+        response = c.post("/lunch/api/notification", notification)
+
+        self.assertEqual(201, response.status_code)
+        mock.assert_called_once_with(not_id)

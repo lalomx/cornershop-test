@@ -3,8 +3,8 @@ from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from lunch.models import Menu, Order
-from lunch.serializers import MenuSerializer, OrderSerializer
+from lunch.models import Menu, Notification, Order
+from lunch.serializers import MenuSerializer, NotificationSerializer, OrderSerializer
 from lunch.tasks import SlackNotification
 
 
@@ -12,9 +12,15 @@ def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
 
 
-def send_notification(request, menu_id):
-    notification = SlackNotification()
-    notification.apply_async(menu_id)
+class NotificationViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
+    queryset = Notification.objects.all()
+    serializer_class = NotificationSerializer
+
+    def perform_create(self, serializer):
+        serializer.save()
+        data = serializer.data
+        slack_notification = SlackNotification()
+        slack_notification.apply_async(data["id"])
 
 
 class MenuViewSet(
