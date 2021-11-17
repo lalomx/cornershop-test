@@ -5,6 +5,7 @@ from unittest import mock
 from django.test import Client, TestCase
 
 from lunch.models import Employee, Menu, Order
+from lunch.tasks import SlackNotification
 
 MENU_ID = uuid.uuid4()
 EMP_ID = uuid.uuid4()
@@ -123,9 +124,8 @@ class NotificationTest(Base):
     @mock.patch("lunch.tasks.SlackNotification.apply_async")
     def test_create_notification(self, mock):
         c = Client()
-        not_id = str(uuid.uuid4())
         notification = {
-            "id": not_id,
+            "id": uuid.uuid4(),
             "channel_name": "slack",
             "employee": EMP_ID,
             "menu": MENU_ID,
@@ -133,4 +133,8 @@ class NotificationTest(Base):
         response = c.post("/lunch/api/notification", notification)
 
         self.assertEqual(201, response.status_code)
-        mock.assert_called_once_with(not_id)
+        mock.assert_called_once_with(str(notification["id"]))
+
+    def test_send_slack_message(self):
+        runner = SlackNotification()
+        runner.run(None)
