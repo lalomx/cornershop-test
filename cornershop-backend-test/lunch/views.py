@@ -1,4 +1,3 @@
-from django.http import HttpResponse
 from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -8,8 +7,6 @@ from lunch.serializers import MenuSerializer, NotificationSerializer, OrderSeria
 from lunch.tasks import SlackNotification
 
 
-def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
 
 
 class NotificationViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
