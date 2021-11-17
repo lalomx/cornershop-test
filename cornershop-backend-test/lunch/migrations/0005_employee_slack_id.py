@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('lunch', '0004_notification_menu'),
+        ("lunch", "0004_notification_menu"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='employee',
-            name='slack_id',
-            field=models.CharField(default='00000', max_length=25),
+            model_name="employee",
+            name="slack_id",
+            field=models.CharField(default="00000", max_length=25),
         ),
     ]

@@ -44,4 +44,4 @@ class Notification(CommonModel, models.Model):
     channel_name = models.CharField(max_length=50, default="Unknown Channel")
     menu = models.ForeignKey(Menu, on_delete=models.SET_NULL, null=True)
     employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
-    status = models.CharField(max_length=1, default="P")
+    status = models.CharField(max_length=10, default="NOT_SENT")
