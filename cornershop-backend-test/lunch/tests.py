@@ -4,29 +4,37 @@ from unittest import mock
 
 from django.test import Client, TestCase
 
-from lunch.models import Employee, Menu, Order
+from lunch.models import Employee, Menu, Notification, Order
 from lunch.tasks import SlackNotification
 
 MENU_ID = uuid.uuid4()
 EMP_ID = uuid.uuid4()
+NOT_ID = uuid.uuid4()
 
 
 class Base(TestCase):
     @classmethod
     def setUpTestData(cls):
         emp1 = Employee.objects.create(
-            first_name="Jonh", last_name="Doe", email="jonh@doe@example.com"
+            first_name="Jonh",
+            last_name="Doe",
+            email="jonh@doe@example.com",
+            slack_id="1",
         )
 
         emp2 = Employee.objects.create(
-            first_name="Jonh 2", last_name="Doe 2", email="jonh2@doe@example.com"
+            first_name="Jonh 2",
+            last_name="Doe 2",
+            email="jonh2@doe@example.com",
+            slack_id="1",
         )
 
-        Employee.objects.create(
+        emp3 = Employee.objects.create(
             id=EMP_ID,
             first_name="Jonh 3",
             last_name="Doe 3",
             email="jonh3@doe@example.com",
+            slack_id="U02MM6JMYQJ",
         )
 
         menu = Menu.objects.create(
@@ -46,6 +54,10 @@ class Base(TestCase):
 
         Order.objects.create(
             comments="no salt", menu=menu, selection="Option 3", employee=emp2
+        )
+
+        Notification.objects.create(
+            id=NOT_ID, channel_name="slack", menu=menu, employee=emp3
         )
 
 
@@ -135,6 +147,11 @@ class NotificationTest(Base):
         self.assertEqual(201, response.status_code)
         mock.assert_called_once_with(str(notification["id"]))
 
-    def test_send_slack_message(self):
+    @mock.patch("slack_sdk.WebClient.chat_postMessage")
+    def test_send_slack_message(self, mock):
         runner = SlackNotification()
-        runner.run(None)
+        runner.run(NOT_ID)
+        noti = Notification.objects.get(id=NOT_ID)
+
+        self.assertEqual("SENT", noti.status)
+        mock.assert_called_once()
