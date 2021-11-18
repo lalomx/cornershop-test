@@ -31,7 +31,7 @@ class ChooseView(FormView):
         if notification.status == "D":
             return render(request, "thanks.html", {"done": True})
 
-        form = self.get_form_choices(request.POST, notification)
+        form = self.get_form_with_choices(request.POST, notification)
         if form.is_valid():
             return self.form_valid(form, notification)
         else:
@@ -45,10 +45,10 @@ class ChooseView(FormView):
             return HttpResponseRedirect("/lunch/out")
 
         notification = Notification.objects.get(id=id)
-        form = self.get_form_choices(None, notification)
+        form = self.get_form_with_choices(None, notification)
         return render(request, self.template_name, {"form": form, "id": id})
 
-    def get_form_choices(self, data, notification):
+    def get_form_with_choices(self, data, notification):
         menu = notification.menu
         form = self.form_class(data)
         form.fields["option"].choices = [
