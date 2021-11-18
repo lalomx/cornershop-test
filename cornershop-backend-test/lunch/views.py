@@ -7,8 +7,6 @@ from lunch.serializers import MenuSerializer, NotificationSerializer, OrderSeria
 from lunch.tasks import SlackNotification
 
 
-
-
 class NotificationViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     queryset = Notification.objects.all()
     serializer_class = NotificationSerializer
