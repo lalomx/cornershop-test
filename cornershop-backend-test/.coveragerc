@@ -8,3 +8,5 @@ omit =
     backend_test/wsgi.py
     backend_test/logging_formatter.py
     lunch/migrations/*
+    lunch/static/*
+    ui/*
