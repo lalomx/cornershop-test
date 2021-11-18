@@ -21,6 +21,8 @@ class SlackNotification(app.Task):
         logger.info("Slack notification started")
         for employee in employees:
             notification = Notification()
+            notification.channel_name = 'slack'
+            notification.employee = employee
             text = f"""Hi, {employee.first_name}! Here's today's menu!
           > {menu.option_one}
           > {menu.option_two}
