@@ -11,7 +11,7 @@
           text-gray-900
         "
       >
-        Orders
+        Employees
       </h1>
     </div>
   <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -81,14 +81,13 @@
 </template>
 
 <script>
-import api from '../mixins/api.mixin'
+// import api from '../mixins/api.mixin'
 
 export default {
-  name: 'Orders',
-  mixins: [api],
+  name: 'Employees',
   async created () {
-    const { data: orders } = await this.getOrders()
-    console.log(orders)
+    const { data: employees } = await this.getEmployees()
+    console.log(employees)
   }
 }
 </script>

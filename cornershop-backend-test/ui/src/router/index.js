@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Orders from '../views/Orders.vue'
 import Choose from '../views/Choose.vue'
 import Menu from '../views/Menu.vue'
+import Employees from '../views/Employees.vue'
 
 Vue.use(VueRouter)
 
@@ -27,6 +28,11 @@ const routes = [
     path: '/menu',
     name: 'Menu',
     component: Menu
+  },
+  {
+    path: '/employees',
+    name: 'Employees',
+    component: Employees
   },
   {
     path: '',
