@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cornershop | Lunch App</title>
+    <link
+      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/lunch/css/main.css" />
+  </head>
+  <body>
+    <div class="container mx-auto text-center">
+      Choose your lunch!
+      <div class="w-full max-w-xs">
+        <form action="{% url 'choose' id %}"  method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          {% csrf_token %}
+          <div class="mb-4">
+            <label
+              class="block text-gray-700 text-sm font-bold mb-2"
+              for="option"
+            >
+              Option
+            </label>
+
+            <div class="mb-4 flex flex-col">
+              {% for radio in form.option %}
+
+              <label for="id_option_{{ forloop.counter0 }}" class="inline-flex items-center mb-4">
+                {{ radio.choice_label }}
+                <span class="ml-2">{{ radio.tag }}</span>
+              </label>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="mb-4">
+            <label
+              class="block text-gray-700 text-sm font-bold mb-2"
+              for="username"
+            >
+              Comments
+            </label>
+            {{ form.comments }}
+          </div>
+          <div class="flex items-center justify-content">
+            <button
+              class="
+                bg-blue-500
+                hover:bg-blue-700
+                text-white
+                font-bold
+                py-2
+                px-4
+                rounded
+                focus:outline-none focus:shadow-outline
+              "
+              type="submit"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
