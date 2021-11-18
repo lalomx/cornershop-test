@@ -100,10 +100,6 @@ export default {
   },
   computed: {
     days () {
-      if (_.isEmpty(this.menus)) {
-        return []
-      }
-
       return this.daysOfweek.map(d => {
         const day = {
           name: moment(d).format('dddd').toLowerCase(),
