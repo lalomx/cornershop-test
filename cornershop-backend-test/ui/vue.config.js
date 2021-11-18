@@ -1,33 +1,22 @@
-const BundleTracker = require("webpack-bundle-tracker");
-
 module.exports = {
-  publicPath: "/lunch",
+  publicPath: process.env.NODE_ENV === 'production' ? "/lunch" : '',
   outputDir: '../lunch/static/lunch',
-  pages: {
+  pages: process.env.NODE_ENV === 'production' ? {
     main: {
-      // entry for the page
       entry: 'src/main.js',
     },
-  },
-  
+  } : undefined,
+
   configureWebpack: (config) => {
     config.output.filename = '[name].js';
     config.output.chunkFilename = '[name].js';
   },
 
   css: {
-    extract: { 
+    extract: {
       ignoreOrder: true,
       filename: 'css/[name].css',
-      chunkFilename: 'css/[name]-chunk.css', 
+      chunkFilename: 'css/[name]-chunk.css',
     },
-    // loaderOptions: {
-    //   sass: {
-    //     prependData: '@import \'~@/assets/scss/vuetify/variables\''
-    //   },
-    //   scss: {
-    //     prependData: '@import \'~@/assets/scss/vuetify/variables\';'
-    //   }
-    // }
   },
 };
