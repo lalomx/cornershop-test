@@ -8,7 +8,7 @@ const URL = process.env.NODE_ENV === 'production'
 export default {
   methods: {
     getEmployees () {
-      console.log(URL)
+      return axios.get(URL + '/employee')
     },
     getMenus () {
       const week = moment().utc().isoWeek()
