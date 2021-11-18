@@ -2,11 +2,12 @@ from django.urls import include, path
 from django.views.generic import TemplateView
 from rest_framework.routers import SimpleRouter
 
-from lunch.views import ChooseView, MenuViewSet, OrderViewSet
+from lunch.views import ChooseView, EmployeeViewSet, MenuViewSet, OrderViewSet
 
 router = SimpleRouter(trailing_slash=False)
 router.register(r"menu", MenuViewSet)
 router.register(r"order", OrderViewSet)
+router.register(r"employee", EmployeeViewSet)
 
 urlpatterns = [
     path("", TemplateView.as_view(template_name="index.html")),

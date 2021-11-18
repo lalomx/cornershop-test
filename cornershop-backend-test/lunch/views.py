@@ -10,8 +10,8 @@ from rest_framework.response import Response
 from pytz import timezone
 
 from lunch.forms import OrderForm
-from lunch.models import Menu, Notification, Order
-from lunch.serializers import CreateOrderSerializer, MenuSerializer, OrderSerializer
+from lunch.models import Employee, Menu, Notification, Order
+from lunch.serializers import CreateOrderSerializer, EmployeeSerializer, MenuSerializer, OrderSerializer
 from lunch.tasks import SlackNotification
 
 
@@ -105,3 +105,9 @@ class OrderViewSet(
             return CreateOrderSerializer
         else:
             return self.serializer_class
+
+
+class EmployeeViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer
+    lookup_field = "id"
