@@ -20,9 +20,6 @@ class SlackNotification(app.Task):
         menu = Menu.objects.get(id=menu_id)
         logger.info("Slack notification started")
         for employee in employees:
-            notification = Notification()
-            notification.channel_name = 'slack'
-            notification.employee = employee
             text = f"""Hi, {employee.first_name}! Here's today's menu!
           > {menu.option_one}
           > {menu.option_two}
@@ -32,8 +29,15 @@ class SlackNotification(app.Task):
           http://localhost:8000/lunch/choose/{notification.id}"""
 
             self.client.chat_postMessage(channel=employee.slack_id, text=text)
-            notification.status = "SENT"
-            notification.save()
+            self.save_notification(menu, employee)
+    
+    def save_notification(self, menu, employee):
+        notification = Notification()
+        notification.channel_name = 'slack'
+        notification.employee = employee
+        notification.menu = menu
+        notification.status = "SENT"
+        notification.save()
 
 
 app.tasks.register(SlackNotification())
