@@ -33,9 +33,9 @@ class SlackNotification(app.Task):
 
             self.client.chat_postMessage(channel=employee.slack_id, text=text)
             self.save_notification(notification)
-    
+
     def save_notification(self, notification):
-        notification.channel_name = 'slack'
+        notification.channel_name = "slack"
         notification.status = "SENT"
         notification.save()
 
