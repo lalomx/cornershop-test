@@ -126,7 +126,7 @@ class OrderTest(Base):
     def test_create_orders(self):
         c = Client()
         order = {
-            "id": uuid.uuid4().hex,
+            "id": uuid.uuid4(),
             "comments": "all ingredients",
             "menu": MENU_ID,
             "selection": "Option 3",

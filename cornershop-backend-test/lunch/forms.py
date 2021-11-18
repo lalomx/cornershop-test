@@ -1,6 +1,6 @@
 from django import forms
 
-from lunch.models import Notification, Order
+from lunch.models import Order
 
 
 class OrderForm(forms.Form):

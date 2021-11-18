@@ -1,6 +1,14 @@
 from rest_framework.serializers import DateField, ModelSerializer, UUIDField
 
-from lunch.models import Menu, Order
+from lunch.models import Employee, Menu, Order
+
+
+class EmployeeSerializer(ModelSerializer):
+    id = UUIDField()
+
+    class Meta:
+        model = Employee
+        fields = "__all__"
 
 
 class MenuSerializer(ModelSerializer):
@@ -12,8 +20,16 @@ class MenuSerializer(ModelSerializer):
         fields = "__all__"
 
 
-class OrderSerializer(ModelSerializer):
+class CreateOrderSerializer(ModelSerializer):
     id = UUIDField()
+
+    class Meta:
+        model = Order
+        fields = "__all__"
+
+
+class OrderSerializer(CreateOrderSerializer):
+    employee = EmployeeSerializer()
 
     class Meta:
         model = Order
