@@ -1,4 +1,4 @@
-from rest_framework import mixins, viewsets
+from rest_framework import generics, mixins, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -12,6 +12,7 @@ class MenuViewSet(
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
     viewsets.GenericViewSet,
+    generics.UpdateAPIView
 ):
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer

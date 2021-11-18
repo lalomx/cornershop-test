@@ -138,8 +138,10 @@ export default {
         name: name,
         date
       }
+
+      console.log(this.selectedMenu.created)
       let promise = Promise.resolve()
-      if (this.selectedMenu.menu) {
+      if (this.selectedMenu.created) {
         promise = this.editMenu(menu)
       } else {
         promise = this.createMenu(menu)

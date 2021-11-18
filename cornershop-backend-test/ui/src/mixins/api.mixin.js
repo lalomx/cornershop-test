@@ -21,7 +21,7 @@ export default {
       return axios.post(URL + '/menu', menu)
     },
     editMenu (menu) {
-      return axios.patch(URL + '/menu', menu)
+      return axios.put(URL + '/menu/' + menu.id, menu)
     }
   }
 }
