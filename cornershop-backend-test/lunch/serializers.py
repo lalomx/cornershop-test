@@ -1,18 +1,11 @@
-from rest_framework.serializers import ModelSerializer, UUIDField
+from rest_framework.serializers import DateField, ModelSerializer, UUIDField
 
-from lunch.models import Menu, Notification, Order
-
-
-class NotificationSerializer(ModelSerializer):
-    id = UUIDField()
-
-    class Meta:
-        model = Notification
-        fields = "__all__"
+from lunch.models import Menu, Order
 
 
 class MenuSerializer(ModelSerializer):
     id = UUIDField()
+    date = DateField()
 
     class Meta:
         model = Menu

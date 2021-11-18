@@ -1,5 +1,6 @@
 import json
 import uuid
+from datetime import date
 from unittest import mock
 
 from django.test import Client, TestCase
@@ -41,6 +42,7 @@ class Base(TestCase):
             created_by="test",
             updated_by="test",
             name="Menu 1",
+            date=date.today(),
             option_one="Option 1",
             option_two="Option 2",
             option_three="Option 3",
@@ -62,10 +64,12 @@ class Base(TestCase):
 
 
 class MenuTests(Base):
-    def test_create_menu(self):
+    @mock.patch("lunch.tasks.SlackNotification.delay")
+    def test_create_menu(self, mock):
         c = Client()
         menu = {
             "id": uuid.uuid4(),
+            "date": "2020-10-21",
             "created_by": "test",
             "updated_by": "test",
             "name": "Monday menu",
@@ -73,6 +77,7 @@ class MenuTests(Base):
         response = c.post("/lunch/api/menu", menu)
 
         self.assertEqual(201, response.status_code)
+        mock.assert_called_once_with(str(menu["id"]))
 
     def test_list_menu(self):
         c = Client()
@@ -133,25 +138,11 @@ class OrderTest(Base):
 
 
 class NotificationTest(Base):
-    @mock.patch("lunch.tasks.SlackNotification.apply_async")
-    def test_create_notification(self, mock):
-        c = Client()
-        notification = {
-            "id": uuid.uuid4(),
-            "channel_name": "slack",
-            "employee": EMP_ID,
-            "menu": MENU_ID,
-        }
-        response = c.post("/lunch/api/notification", notification)
-
-        self.assertEqual(201, response.status_code)
-        mock.assert_called_once_with(str(notification["id"]))
-
     @mock.patch("slack_sdk.WebClient.chat_postMessage")
     def test_send_slack_message(self, mock):
         runner = SlackNotification()
-        runner.run(NOT_ID)
-        noti = Notification.objects.get(id=NOT_ID)
+        runner.run(MENU_ID)
+        noti = Notification.objects.all()
 
-        self.assertEqual("SENT", noti.status)
-        mock.assert_called_once()
+        self.assertEqual(4, len(noti))
+        mock.assert_called()

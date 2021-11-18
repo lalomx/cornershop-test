@@ -27,6 +27,7 @@ class Employee(CommonModel, models.Model):
 
 class Menu(CommonModel, models.Model):
     name = models.CharField(max_length=50, default="Unknown Menu")
+    date = models.DateField(null=False, unique=True)
     option_one = models.CharField(max_length=250, default="Dish 1")
     option_two = models.CharField(max_length=250, default="Dish 2")
     option_three = models.CharField(max_length=250, default="Dish 3")
