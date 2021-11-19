@@ -1,16 +1,16 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cornershop | Lunch App</title>
-    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/static/lunch/css/main.css" >
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container w-full mx-auto pt-12 flex justify-end">
+  {% if user.is_authenticated %}
+      <p class="text-gray-800">Welcome, {{ user.get_username }}</p>
+      <a href="{% url 'logout' %}?next={{request.path}}">Logout</a>
+    {% else %}
+      <a href="{% url 'login' %}?next={{request.path}}">Login</a>
+    {% endif %} 
+</div>
     <div id="app" class="bg-gray-100"></div>
     <script src="/static/lunch/main.js" ></script>
     <script src="/static/lunch/chunk-vendors.js" ></script>
-</body>
-</html>
+
+{% endblock %}

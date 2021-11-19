@@ -20,4 +20,5 @@ from .utils.healthz import healthz
 urlpatterns = [
     path("healthz", healthz, name="healthz"),
     path("lunch/", include("lunch.urls")),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
