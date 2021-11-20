@@ -11,7 +11,12 @@ from pytz import timezone
 
 from lunch.forms import OrderForm
 from lunch.models import Employee, Menu, Notification, Order
-from lunch.serializers import CreateOrderSerializer, EmployeeSerializer, MenuSerializer, OrderSerializer
+from lunch.serializers import (
+    CreateOrderSerializer,
+    EmployeeSerializer,
+    MenuSerializer,
+    OrderSerializer,
+)
 from lunch.tasks import SlackNotification
 
 
