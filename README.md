@@ -124,12 +124,28 @@ After all this process, the user will be prompted:
 The admin interface is very straightforward, consists of a Vue app with 4 main views:
 
 - Home
+
+Home page with the nav bar
+![msg](./docs/img/home.png)
+
+
 - Menus
+
+List of week menu
+
+![msg](./docs/img/menu.png)
+
 - Employees
+
+List of employees
+![msg](./docs/img/employees.png)
+
 - Orders
 
+List of orders
+![msg](./docs/img/orders.png)
 
---images
+
 
 ### Choose view
 
@@ -139,17 +155,95 @@ It's a simple Django template with a form.
 
 The main action here is that the post action updated the notification as 'DONE' and the order record is created.
 
---images
+- Form
 
+![msg](./docs/img/choose.png)
 
+- Submit Success
+
+![msg](./docs/img/created.png)
+
+- Out of schedule
+
+![msg](./docs/img/no.png)
 ### Staticfiles
 
 The static files are a important part of any Django project.
+By default, the static files are taken from each app's static folder.
+
+Being that said, the destination folder from the Vue app´s bundles are generated in /lunch/static
+
+```
+module.exports = {
+  ...
+  outputDir: '../lunch/static/lunch',
+  ...
+}
+```
+
+Collecstatic with
+
+```
+python manage.py collecstatic --no-input
+```
 
 
 ## How can I run the project?
 
+1.- Backend
+
+- `cd cornershop-backend-test`
+- `make up`
+
+This will create the initial data (en employee with an Slack ID)
+- `python manage.py runscript data` 
+- `dev up`
+
+2.- UI
+- `cd cornershop-backend-test`
+- `cd ui`
+- `npm run serve`
+
+3. Production
+
+- Build ui
+- `cd cornershop-backend-test`
+- `cd ui`
+- `npm run build`
+- `cd ..`
+- `make up`
+- `python manage.py collecstatic`
+- `dev up`
+
 
 ## Testing
 
+Find unit test in lunch/tests.py and run with the following command:
+
+If we are inside the docker container
+- `dev cov`
+
+Outside docker container
+
+- `python manage.py test`
+
 ## Other stuff
+
+**Adminer**
+
+Adminer is a simply Data management application for PostgreSQL
+
+Go to http://localhost:8081/
+
+Enter credentials
+
+![msg](./docs/img/adminer.png)
+
+You can now visualize data and perform SQL queries
+
+![msg](./docs/img/data.png)
+
+
+
+
+
